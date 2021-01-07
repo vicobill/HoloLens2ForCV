@@ -62,12 +62,12 @@ namespace BasicHologram
             return DirectX::XMMatrixIdentity();
         }
 
-        void SetModelTransform(DirectX::XMMATRIX &modelTransform)
+        void SetModelTransform(DirectX::XMMATRIX const&modelTransform)
         {
             XMStoreFloat4x4(&m_modelTransform, modelTransform);
         }
 
-        void SetModelTransform(DirectX::XMFLOAT4X4 &modelTransform)
+        void SetModelTransform(DirectX::XMFLOAT4X4 const&modelTransform)
         {
             m_modelTransform = modelTransform;
         }

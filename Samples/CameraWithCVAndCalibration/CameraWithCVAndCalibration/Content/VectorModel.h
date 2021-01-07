@@ -46,12 +46,12 @@ namespace BasicHologram
             m_rotation = rotation;
         }
 
-        void SetColor(DirectX::XMFLOAT3 &color)
+        void SetColor(DirectX::XMFLOAT3 const&color)
         {
             m_originColor = color;
         }
 
-        void SetDirection(DirectX::XMFLOAT3 &point);
+        void SetDirection(DirectX::XMFLOAT3 const&point);
 
         virtual bool IsAxisModel()
         {

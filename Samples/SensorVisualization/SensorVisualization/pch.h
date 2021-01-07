@@ -33,4 +33,3 @@
 #include <winrt\Windows.UI.Input.Spatial.h>
 
 #include "researchmode\ResearchModeApi.h"
-
