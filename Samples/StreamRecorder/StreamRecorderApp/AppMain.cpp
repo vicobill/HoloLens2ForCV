@@ -12,6 +12,7 @@
 #include "AppMain.h"
 #include <winrt/Windows.Foundation.h>
 #include <ctime>
+#include "Cannon/TcpServer.h"
 
 using namespace DirectX;
 using namespace std;
@@ -41,6 +42,41 @@ std::vector<ResearchModeSensorType> AppMain::kEnabledRMStreamTypes = { ResearchM
 	EYE  // Eye gaze tracking
 }*/
 std::vector<StreamTypes> AppMain::kEnabledStreamTypes = { StreamTypes::PV };
+
+static AppMain* _instance = nullptr;
+
+AppMain& AppMain::Get() {
+	if (_instance == nullptr) {
+		_instance = new AppMain();
+	}
+	return *_instance;
+}
+
+void AppMain::SendDepthFrame(const uint8_t* data, size_t len)
+{
+	uint8_t* pdata = new uint8_t[len + 4];
+	memset(pdata, 0, len + 4);
+	int n = 'DPTH';
+	memcpy(pdata, &n, 4);
+	memcpy(pdata + 4, (char*)data, len);
+
+	m_tcpServer->Send(pdata, len + 1);
+
+	delete []pdata;
+}
+
+void AppMain::SendVLCFrame(const uint8_t* data, size_t len)
+{
+	uint8_t* pdata = new uint8_t[len + 4];
+	int n = 'VLC';
+	memcpy(pdata, &n, 4);
+	memcpy(pdata + 4, data, len);
+
+	m_tcpServer->Send(pdata, len + 1);
+	delete []pdata;
+}
+
+
 
 AppMain::AppMain() :
 	m_recording(false),
@@ -92,6 +128,16 @@ AppMain::AppMain() :
 			m_mixedReality.EnableEyeTracking();
 		}
 	}
+
+	m_tcpServer = new TcpServer();
+
+	if (_instance == nullptr) {
+		_instance = this;
+	}
+}
+
+AppMain::~AppMain() {
+	delete m_tcpServer;
 }
 
 void AppMain::Update()
@@ -262,6 +308,9 @@ winrt::Windows::Foundation::IAsyncAction AppMain::StartRecordingAsync()
 		}
 		m_recording = true;
 	}
+
+	// 
+	StartServer();
 }
 
 void AppMain::StopRecording()
@@ -399,4 +448,18 @@ void AppMain::Render()
 
 		DrawCall::GetD3DSwapChain()->Present(1, 0);
 	}
+}
+#include "../Cannon/TcpServer.h"
+
+
+void AppMain::StartServer() {
+	
+	m_tcpServer->Init();
+	if (m_tcpServer->IsReady()) {
+		m_tcpServer->Start();
+	}
+}
+
+void AppMain::StopServer() {
+	m_tcpServer->Shutdown();
 }

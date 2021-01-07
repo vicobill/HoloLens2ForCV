@@ -55,6 +55,7 @@ struct AppView : winrt::implements<AppView, winrt::Windows::ApplicationModel::Co
 
 		if (!m_main)
 			m_main = make_unique<AppMain>();
+
 	}
 
 	void AppView::Run()

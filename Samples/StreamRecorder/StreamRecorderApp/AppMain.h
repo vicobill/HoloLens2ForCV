@@ -22,6 +22,8 @@
 #include "SensorScenario.h"
 #include "VideoFrameProcessor.h"
 
+#include <list>
+
 enum StreamTypes
 {
 	PV,  // RGB
@@ -34,6 +36,7 @@ class AppMain : public IFloatingSlateButtonCallback
 public:
 
 	AppMain();
+	~AppMain();
 
 	void Update();
 	virtual void OnButtonPressed(FloatingSlateButton* pButton);
@@ -47,10 +50,20 @@ public:
 	static std::vector<ResearchModeSensorType> kEnabledRMStreamTypes;
 	static std::vector<StreamTypes> kEnabledStreamTypes;
 
+	static AppMain& Get();
+
+	void SendDepthFrame(const uint8_t* data, size_t len);
+	void SendVLCFrame(const uint8_t* data, size_t len);
+
 private:
 	winrt::Windows::Foundation::IAsyncAction InitializeVideoFrameProcessorAsync();
 	bool IsVideoFrameProcessorWantedAndReady() const;
 	inline bool IsQRCodeDetected() { return m_qrCodeValue.length() > 0; };
+
+	class TcpServer* m_tcpServer;
+	void StartServer();
+	void StopServer();
+
 	
 	bool SetDateTimePath();
 

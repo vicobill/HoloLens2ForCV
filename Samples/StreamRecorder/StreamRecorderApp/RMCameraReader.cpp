@@ -11,11 +11,13 @@
 
 #include "RMCameraReader.h"
 #include <sstream>
-
+#include "AppMain.h"
+#include "mrwebrtc/peer_connection_interop.h"
 using namespace winrt::Windows::Perception;
 using namespace winrt::Windows::Perception::Spatial;
 using namespace winrt::Windows::Foundation::Numerics;
 using namespace winrt::Windows::Storage;
+
 
 
 namespace Depth
@@ -345,8 +347,21 @@ void RMCameraReader::SaveDepth(IResearchModeSensorFrame* pSensorFrame, IResearch
         depthPgmData.push_back((BYTE)d);
     }
 
-    m_tarball->AddFile(outputAbPath, &abPgmData[0], abPgmData.size());
+
     m_tarball->AddFile(outputDepthPath, &depthPgmData[0], depthPgmData.size());
+    m_tarball->AddFile(outputAbPath, &abPgmData[0], abPgmData.size());
+
+    SendDepthFrame(&depthPgmData[0], depthPgmData.size());
+}
+
+void RMCameraReader::SendDepthFrame(const uint8_t* data, size_t len)
+{
+    AppMain::Get().SendDepthFrame(data, len);
+}
+
+void RMCameraReader::SendVLCFrame(const uint8_t* data, size_t len)
+{
+    AppMain::Get().SendVLCFrame(data, len);
 }
 
 void RMCameraReader::SaveVLC(IResearchModeSensorFrame* pSensorFrame, IResearchModeSensorVLCFrame* pVLCFrame)
@@ -374,7 +389,11 @@ void RMCameraReader::SaveVLC(IResearchModeSensorFrame* pSensorFrame, IResearchMo
     pgmData.insert(pgmData.end(), headerString.c_str(), headerString.c_str() + headerString.size());
     pgmData.insert(pgmData.end(), pImage, pImage + outBufferCount);
 
+
     m_tarball->AddFile(outputPath, &pgmData[0], pgmData.size());
+
+
+    SendVLCFrame(&pgmData[0], pgmData.size());
 }
 
 void RMCameraReader::SaveFrame(IResearchModeSensorFrame* pSensorFrame)

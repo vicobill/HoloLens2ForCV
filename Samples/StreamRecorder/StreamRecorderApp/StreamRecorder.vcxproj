@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\mrwebrtc_uwp.2.0.2\build\native\mrwebrtc_uwp.props" Condition="Exists('packages\mrwebrtc_uwp.2.0.2\build\native\mrwebrtc_uwp.props')" />
   <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.props')" />
   <Import Project="packages\Microsoft.MixedReality.QR.0.5.2100\build\native\Microsoft.MixedReality.QR.props" Condition="Exists('packages\Microsoft.MixedReality.QR.0.5.2100\build\native\Microsoft.MixedReality.QR.props')" />
   <PropertyGroup Label="Globals">
@@ -103,9 +104,12 @@
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions);ENABLE_QRCODE_API</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\Projects\HoloLens2ForCV\Samples\StreamRecorder\StreamRecorderApp\packages\mrwebrtc_uwp.2.0.2\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <AdditionalLibraryDirectories>E:\Projects\HoloLens2ForCV\Samples\StreamRecorder\StreamRecorderApp\packages\mrwebrtc_uwp.2.0.2\runtimes\win10-arm\lib\uap10.0\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mrwebrtc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -165,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AppMain.h" />
+    <ClInclude Include="Cannon\TcpServer.h" />
     <ClInclude Include="HeTHaTEyeStream.h" />
     <ClInclude Include="StringHelpers.h" />
     <ClInclude Include="Tar.h" />
@@ -197,6 +202,7 @@
     <ClCompile Include="Cannon\RecordedValue.cpp" />
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="AppView.cpp" />
+    <ClCompile Include="Cannon\TcpServer.cpp" />
     <ClCompile Include="Cannon\TrackedHands.cpp" />
     <ClCompile Include="HeTHaTEyeStream.cpp" />
     <ClCompile Include="StringHelpers.cpp" />
@@ -307,6 +313,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="NOTICE" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -327,5 +334,6 @@
     <Error Condition="!Exists('packages\Microsoft.MixedReality.QR.0.5.2100\build\native\Microsoft.MixedReality.QR.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.MixedReality.QR.0.5.2100\build\native\Microsoft.MixedReality.QR.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.props'))" />
     <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.200729.8\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+    <Error Condition="!Exists('packages\mrwebrtc_uwp.2.0.2\build\native\mrwebrtc_uwp.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\mrwebrtc_uwp.2.0.2\build\native\mrwebrtc_uwp.props'))" />
   </Target>
 </Project>

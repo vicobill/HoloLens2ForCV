@@ -55,6 +55,9 @@
       <Filter>Cannon</Filter>
     </ClCompile>
     <ClCompile Include="HeTHaTEyeStream.cpp" />
+    <ClCompile Include="Cannon\TcpServer.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppMain.h" />
@@ -71,6 +74,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="HeTHaTEyeStream.h" />
+    <ClInclude Include="Cannon\TcpServer.h">
+      <Filter>Cannon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
@@ -126,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="NOTICE" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Media\Meshes\coord_axes.obj">

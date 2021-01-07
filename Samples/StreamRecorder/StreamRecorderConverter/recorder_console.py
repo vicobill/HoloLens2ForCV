@@ -15,6 +15,9 @@ from pathlib import Path
 from urllib.parse import quote
 from process_all import process_all
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 class RecorderShell(cmd.Cmd):
     dev_portal_browser = None

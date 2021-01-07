@@ -49,6 +49,7 @@
     <rescap:Capability Name="perceptionSensorsExperimental"/>
     <Capability Name="internetClient" />
     <uap2:Capability Name="spatialPerception"/>
+    <Capability Name="internetClientServer"/>
     <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="gazeInput"/>    
   </Capabilities>
